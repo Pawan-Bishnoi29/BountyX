@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>BountyWatch</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <div class="brand-mark">
+          <img src="icons/icon48.png" alt="BountyWatch" />
+        </div>
+        <h1>BountyWatch</h1>
+      </div>
+      <div id="count-badge" class="badge hidden"></div>
+    </header>
+
+    <div class="toolbar">
+      <button id="chatgpt-btn" class="btn"><span id="chatgpt-label">Chatgpt</span></button>
+      <button id="copy-btn" class="btn"><span id="copy-label">Copy</span></button>
+      <button id="clear-btn" class="btn btn-danger"><span>Clear</span></button>
+    </div>
+
+    <div class="search-row">
+      <svg
+        class="search-icon"
+        viewBox="0 0 24 24"
+        width="15"
+        height="15"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+      <input
+        id="search-input"
+        type="text"
+        placeholder="Search programs..."
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button id="search-clear" class="search-clear hidden" title="Clear search">✕</button>
+    </div>
+
+    <main id="program-list"></main>
+
+    <footer id="empty-state" class="empty hidden">
+      <div class="empty-icon">🎯</div>
+      <p><strong>No bug bounty programs tracked yet</strong></p>
+      <p>
+        Browse pages containing keywords like <em>bounty</em>, <em>reward</em>,
+        <em>monetary</em>, <em>eligible targets</em> and they'll be saved here.
+      </p>
+    </footer>
+
+    <script src="common.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
