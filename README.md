@@ -4,6 +4,13 @@ BountyWatch is a Chrome extension that automatically detects bug bounty programs
 
 It also lets you send all tracked programs to ChatGPT in one click so you can get a normalized, structured (JSON) overview of every program: reward ranges, in-scope/out-of-scope domains, and more.
 
+## Demo
+<img width="1596" height="965" alt="image" src="https://github.com/user-attachments/assets/1c3dd6a0-6fad-4223-8194-d8435bda5f3b" />
+
+<img width="835" height="1076" alt="image" src="https://github.com/user-attachments/assets/0d9977b0-7f17-4717-b389-220e67069c55" />
+
+
+
 ## Features
 
 - **Automatic detection** – visit any page; if it's a bug bounty program it is added to your tracked list automatically.
