@@ -46,21 +46,25 @@ const THEME = {
 // ==================== Regex Builders ====================
 
 /**
- * Escapes special regex characters in a string
- * @param {string} str - String to escape
- * @returns {string} Escaped string
+ * Escapes special regex characters in a string.
+ *
+ * @param {string} str
+ * @returns {string}
  */
 function escapeRegExp(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 /**
- * Builds regex matchers from keyword list
- * @param {string[]} list - Array of keywords
- * @returns {RegExp[]} Array of word-boundary regex patterns
+ * Builds regex matchers from keyword list.
+ *
+ * @param {string[]} list
+ * @returns {RegExp[]}
  */
 function buildMatcher(list) {
-  return list.map((kw) => new RegExp(`\\b${escapeRegExp(kw)}\\b`, "i"));
+  return list.map(function (kw) {
+    return new RegExp("\\b" + escapeRegExp(kw) + "\\b", "i");
+  });
 }
 
 // Pre-compiled matchers for performance
@@ -70,12 +74,15 @@ const WEAK_RE = buildMatcher(WEAK_KEYWORDS);
 // ==================== Text Scanning ====================
 
 /**
- * Scans text for bounty-related keywords
- * @param {string} text - Text content to scan
- * @returns {Object|null} Object with strong/weak matches, or null if none found
+ * Scans text for bounty-related keywords.
+ *
+ * @param {string} text
+ * @returns {Object|null}
  */
 function scanText(text) {
-  if (!text || typeof text !== "string") return null;
+  if (!text || typeof text !== "string") {
+    return null;
+  }
 
   const strongMatches = [];
   const weakMatches = [];
@@ -94,7 +101,7 @@ function scanText(text) {
     }
   }
 
-  // Return only if any matches found
+  // No matches
   if (strongMatches.length === 0 && weakMatches.length === 0) {
     return null;
   }
@@ -109,58 +116,73 @@ function scanText(text) {
 // ==================== URL Utilities ====================
 
 /**
- * Normalizes URL by removing hash fragments
- * @param {string} href - Raw URL string
- * @returns {string} Normalized URL or empty string if invalid
+ * Normalizes a URL by removing hash fragments.
+ *
+ * @param {string} href
+ * @returns {string}
  */
 function normalizeUrl(href) {
-  if (!href || typeof href !== "string") return "";
-  
+  if (!href || typeof href !== "string") {
+    return "";
+  }
+
   try {
     const url = new URL(href);
-    url.hash = ""; // Remove fragment
+    url.hash = "";
     return url.href;
-  } catch (_) {
-    // Return original if parsing fails
+  } catch (error) {
     return href;
   }
 }
 
 /**
- * Generates favicon URL from Google service
- * @param {string} href - Page URL
- * @param {number} size - Icon size (default: 32)
- * @returns {string} Favicon URL or empty string
+ * Generates a favicon URL using Google's favicon service.
+ *
+ * @param {string} href
+ * @param {number} size
+ * @returns {string}
  */
-function faviconUrl(href, size = 32) {
-  if (!href || typeof href !== "string") return "";
-  
+function faviconUrl(href, size) {
+  if (!href || typeof href !== "string") {
+    return "";
+  }
+
+  if (!size) {
+    size = 32;
+  }
+
   try {
     const domain = new URL(href).hostname;
-    if (!domain) return "";
-    
+
+    if (!domain) {
+      return "";
+    }
+
     return (
       "https://www.google.com/s2/favicons?domain=" +
       encodeURIComponent(domain) +
       "&sz=" +
       size
     );
-  } catch (_) {
+  } catch (error) {
     return "";
   }
 }
 
 /**
- * Extracts domain from URL
- * @param {string} url - Full URL
- * @returns {string} Domain hostname or empty string
+ * Extracts domain from URL.
+ *
+ * @param {string} url
+ * @returns {string}
  */
 function getDomain(url) {
-  if (!url) return "";
-  
+  if (!url || typeof url !== "string") {
+    return "";
+  }
+
   try {
     return new URL(url).hostname;
-  } catch (_) {
+  } catch (error) {
     return "";
   }
 }
@@ -168,13 +190,16 @@ function getDomain(url) {
 // ==================== HTML Processing ====================
 
 /**
- * Converts HTML to plain text
- * @param {string} html - Raw HTML content
- * @returns {string} Plain text with tags removed
+ * Converts HTML to plain text.
+ *
+ * @param {string} html
+ * @returns {string}
  */
 function htmlToText(html) {
-  if (!html || typeof html !== "string") return "";
-  
+  if (!html || typeof html !== "string") {
+    return "";
+  }
+
   return html
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
@@ -191,16 +216,22 @@ function htmlToText(html) {
 }
 
 /**
- * Extracts title from HTML
- * @param {string} html - Raw HTML content
- * @returns {string} Page title or empty string
+ * Extracts title from HTML.
+ *
+ * @param {string} html
+ * @returns {string}
  */
 function extractTitle(html) {
-  if (!html || typeof html !== "string") return "";
-  
+  if (!html || typeof html !== "string") {
+    return "";
+  }
+
   const match = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
-  if (!match) return "";
-  
+
+  if (!match) {
+    return "";
+  }
+
   return match[1]
     .replace(/<[^>]+>/g, "")
     .replace(/&amp;/g, "&")
@@ -209,38 +240,20 @@ function extractTitle(html) {
     .trim();
 }
 
-// ==================== Exports ====================
+// ==================== Browser Exports ====================
 
-// Browser environment
 if (typeof window !== "undefined") {
   window.STRONG_KEYWORDS = STRONG_KEYWORDS;
   window.WEAK_KEYWORDS = WEAK_KEYWORDS;
   window.THEME = THEME;
+
   window.scanText = scanText;
   window.normalizeUrl = normalizeUrl;
   window.faviconUrl = faviconUrl;
   window.getDomain = getDomain;
   window.htmlToText = htmlToText;
   window.extractTitle = extractTitle;
+
   window.escapeRegExp = escapeRegExp;
   window.buildMatcher = buildMatcher;
-}
-
-// Node.js environment (for testing)
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = {
-    STRONG_KEYWORDS,
-    WEAK_KEYWORDS,
-    THEME,
-    scanText,
-    normalizeUrl,
-    faviconUrl,
-    getDomain,
-    htmlToText,
-    extractTitle,
-    escapeRegExp,
-    buildMatcher,
-    STRONG_RE,
-    WEAK_RE
-  };
 }
