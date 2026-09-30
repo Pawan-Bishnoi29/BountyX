@@ -3,7 +3,7 @@
   "name": "BountyX",
   "version": "1.0.0",
   "description": "Automatically detects bug bounty programs (keywords like bounty, reward, monetary compensation, eligible targets) on the pages you visit and tracks them.",
-  "permissions": ["storage", "tabs", "scripting", "favicon"],
+  "permissions": ["storage", "tabs", "scripting"],
   "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "background.js"
