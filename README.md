@@ -1,6 +1,6 @@
-# BountyWatch
+# BountyX
 
-BountyWatch is a Chrome extension that automatically detects bug bounty programs on the pages you visit. It scans the content of every page, recognizes bounty-related keywords ("bounty", "reward", "monetary compensation", "eligible targets", etc.), and once a page looks like a bug bounty program it saves it to your tracked list with the page's favicon, title, and URL.
+BountyX is a Chrome extension that automatically detects bug bounty programs on the pages you visit. It scans the content of every page, recognizes bounty-related keywords ("bounty", "reward", "monetary compensation", "eligible targets", etc.), and once a page looks like a bug bounty program it saves it to your tracked list with the page's favicon, title, and URL.
 
 It also lets you send all tracked programs to ChatGPT in one click so you can get a normalized, structured (JSON) overview of every program: reward ranges, in-scope/out-of-scope domains, and more.
 
@@ -26,7 +26,7 @@ It also lets you send all tracked programs to ChatGPT in one click so you can ge
 ## Installation (load as unpacked extension)
 
 1. **Download the code**
-   - Clone or download this repository into a folder on your computer, e.g. `BountyWatch`.
+   - Clone or download this repository into a folder on your computer, e.g. `BountyX`.
    - Inside the folder you must see `manifest.json` (this is the extension's "entry point").
 
 2. **Open the Extensions page**
@@ -37,25 +37,25 @@ It also lets you send all tracked programs to ChatGPT in one click so you can ge
 
 4. **Load the extension**
    - Click the **Load unpacked** button (top-left).
-   - Select the `BountyWatch` folder that contains `manifest.json`.
+   - Select the `BountyX` folder that contains `manifest.json`.
    - BountyWatch appears in your extension list. It is now active.
 
 5. **Pin the extension (optional but recommended)**
    - Click the puzzle piece icon in the Chrome toolbar.
-   - Find **BountyWatch** and click the pin so the icon stays visible in your toolbar.
+   - Find **BountyX** and click the pin so the icon stays visible in your toolbar.
 
 ## How to use
 
 ### Basic tracking
 
 - Just browse normally. When BountyWatch detects a page that is a bug bounty program, it adds it to your list automatically (look for the badge count on the extension icon).
-- Click the **BountyWatch icon** to open the popup and see everything tracked.
+- Click the **BountyX icon** to open the popup and see everything tracked.
 
 ### In the popup toolbar
 
 - **Search** – filter the tracked programs by title or URL.
 - **Copy** – copies all detected programs as a JSON array to your clipboard.
-- **Chatgpt** – opens `chatgpt.com` in a new tab, attaches a `bountywatch-prompt.txt` file containing every tracked program plus the extraction instructions, and automatically presses send. Copy ChatGPT's ` ```json ``` ` output and you're done.
+- **Chatgpt** – opens `chatgpt.com` in a new tab, attaches a `bountyx-prompt.txt` file containing every tracked program plus the extraction instructions, and automatically presses send. Copy ChatGPT's ` ```json ``` ` output and you're done.
 - **Clear** – empties your tracked list.
 
 ## Updating the extension

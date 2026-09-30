@@ -1,4 +1,4 @@
-const STORAGE_KEY = "BOUNTYWATCH_PROGRAMS";
+const STORAGE_KEY = "BOUNTYX_PROGRAMS";
 
 const listEl = document.getElementById("program-list");
 const emptyEl = document.getElementById("empty-state");
@@ -256,59 +256,4 @@ copyBtn.addEventListener("click", async () => {
 const PENDING_PROMPT_KEY = "BOUNTYWATCH_PENDING_PROMPT";
 const MSG_SEND_TO_CHATGPT = "BOUNTYWATCH_SEND_TO_CHATGPT";
 
-async function openChatgptWithPrompt(prompt) {
-  await chrome.storage.local.set({ [PENDING_PROMPT_KEY]: prompt });
-
-  const existing = await chrome.tabs.query({
-    url: ["*://chatgpt.com/*", "*://chat.openai.com/*"]
-  });
-  const tab = existing[0];
-
-  if (tab && tab.id != null) {
-    await chrome.tabs.update(tab.id, { active: true });
-    try {
-      await chrome.tabs.sendMessage(tab.id, { type: MSG_SEND_TO_CHATGPT });
-    } catch (_) {
-      await chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        files: ["chatgpt-inject.js"]
-      });
-      try {
-        await chrome.tabs.sendMessage(tab.id, { type: MSG_SEND_TO_CHATGPT });
-      } catch (_) {}
-    }
-  } else {
-    await chrome.tabs.create({ url: "https://chatgpt.com/" });
-  }
-}
-
-chatgptBtn.addEventListener("click", async () => {
-  const resetLabel = (msg) => {
-    chatgptLabel.textContent = msg;
-    setTimeout(() => (chatgptLabel.textContent = "Chatgpt"), 1500);
-  };
-  const programs = await getCurrent();
-  if (programs.length === 0) {
-    resetLabel("Nothing to send");
-    return;
-  }
-  try {
-    await openChatgptWithPrompt(buildChatgptPrompt(programs));
-    resetLabel("Opening ChatGPT…");
-  } catch (_) {
-    resetLabel("Failed");
-  }
-});
-
-clearBtn.addEventListener("click", async () => {
-  await chrome.storage.local.set({ [STORAGE_KEY]: [] });
-  await load();
-});
-
-chrome.storage.onChanged.addListener((changes, area) => {
-  if (area === "local" && changes[STORAGE_KEY]) {
-    load();
-  }
-});
-
-load();
+async function open

@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "BountyWatch",
+  "name": "BountyX",
   "version": "1.0.0",
   "description": "Automatically detects bug bounty programs (keywords like bounty, reward, monetary compensation, eligible targets) on the pages you visit and tracks them.",
   "permissions": ["storage", "tabs", "scripting", "favicon"],
@@ -10,7 +10,7 @@
   },
   "action": {
     "default_popup": "popup.html",
-    "default_title": "BountyWatch - tracked programs",
+    "default_title": "BountyX - tracked programs",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",

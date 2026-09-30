@@ -1,15 +1,21 @@
 importScripts("common.js");
 
-const STORAGE_KEY = "BOUNTYWATCH_PROGRAMS";
-const MSG_DETECT = "BOUNTYWATCH_DETECT";
-const MSG_CLEAR = "BOUNTYWATCH_CLEAR";
-const MSG_SCAN_URLS = "BOUNTYWATCH_SCAN_URLS";
+const STORAGE_KEY = "BOUNTYX_PROGRAMS";
+const MSG_DETECT = "BOUNTYX_DETECT";
+const MSG_CLEAR = "BOUNTYX_CLEAR";
+const MSG_SCAN_URLS = "BOUNTYX_SCAN_URLS";
 
 const MAX_LINKS_PER_SERP = 40;
 const MAX_CONCURRENT = 3;
 const FETCH_TIMEOUT = 20000;
 const URL_COOLDOWN_MS = 300000;
 const DOMAIN_COOLDOWN_MS = 8000;
+
+// Professional theme colors
+const THEME = {
+  badgeBackground: "#6366f1", // Indigo-500 professional color
+  badgeText: "#ffffff"
+};
 
 async function getPrograms() {
   const data = await chrome.storage.local.get([STORAGE_KEY]);
@@ -56,7 +62,8 @@ function badgeText(count) {
 
 async function initBadge() {
   const programs = await getPrograms();
-  await chrome.action.setBadgeBackgroundColor({ color: "#16a34a" });
+  await chrome.action.setBadgeBackgroundColor({ color: THEME.badgeBackground });
+  await chrome.action.setBadgeTextColor({ color: THEME.badgeText });
   await chrome.action.setBadgeText({ text: badgeText(programs.length) });
 }
 
@@ -89,7 +96,8 @@ cleanLegacyFragments();
 
 chrome.storage.onChanged.addListener(async (changes, area) => {
   if (area === "local" && changes[STORAGE_KEY]) {
-    await chrome.action.setBadgeBackgroundColor({ color: "#16a34a" });
+    await chrome.action.setBadgeBackgroundColor({ color: THEME.badgeBackground });
+    await chrome.action.setBadgeTextColor({ color: THEME.badgeText });
     await chrome.action.setBadgeText({
       text: badgeText(changes[STORAGE_KEY].newValue.length)
     });
@@ -223,7 +231,8 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg && msg.type === MSG_CLEAR && sender.tab) {
     (async () => {
       const programs = await getPrograms();
-      await chrome.action.setBadgeBackgroundColor({ color: "#16a34a" });
+      await chrome.action.setBadgeBackgroundColor({ color: THEME.badgeBackground });
+      await chrome.action.setBadgeTextColor({ color: THEME.badgeText });
       await chrome.action.setBadgeText({ text: badgeText(programs.length) });
       sendResponse({ ok: true });
     })();
